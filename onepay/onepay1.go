@@ -4,8 +4,9 @@
 package main
 
 import (
+	"github.com/ethereum/go-ethereum/ethclient"
+	"log"
 	"math/big"
-	"net/rpc"
 	"strings"
 
 	"github.com/ethereum/go-ethereum"
@@ -899,5 +900,37 @@ const key = `{"address":"6b9161be3d3f711e495bcedbf937512897f3ac17","crypto":{"ci
 
 func main() {
 	//创建基于IPC的RPC连接到远程节点和授权的交易者
-	conn, err := rpc.Server{}
+	conn, err := ethclient.Dial("https://rinkeby.infura.io/v3/92f0d24bf86048c99b3f8f14ee3d5c9c")
+	if err != nil {
+		log.Fatalf("Failed to connect to the Ethereum client:%v \n", err)
+	}
+
+	auth, err := bind.NewTransactor(key,"shangwencai1")
+
+	if err != nil {
+		log.Fatalf("Failed to create authorized transactor: %v", err)
+	}
+
+	//为绑定演示部署一个新的很棒的合同
+	address, tx, onepay, err := DeployOnepay(auth,conn)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
